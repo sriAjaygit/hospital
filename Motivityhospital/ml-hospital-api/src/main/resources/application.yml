@@ -27,6 +27,6 @@ spring:
 
 jwt:
   secret: screatKey123
+#  for frontend domain
 domain:
   name: http://localhost:3000/
-

@@ -25,13 +25,17 @@ import com.motivity.hospital.jwt.filter.JWTFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	Logger logger= LoggerFactory.getLogger(SecurityConfig.class);
 	@Autowired
-	 private JWTFilter jwtFilter;
+	private JWTFilter jwtFilter;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
+//		http.csrf(c->{
+//			c.ignoringAntMatchers("/api/csrf");
+//			c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+//
+//		});
 		http.csrf().disable();
 		http.addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);
 		http.authorizeRequests().antMatchers("/swagger-ui/**", "https://ml-hospital-mngmt.azurewebsites.net/**","/v3/api-docs/**","https://ml-hospital-scheduler.azurewebsites.net/").permitAll();
@@ -40,25 +44,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/doctorslists").hasAnyAuthority("admin","patient")
 				.antMatchers("/updatePatient","/patientPasswordChange","/insertAppointment","/showStatus").hasAuthority("patient")
 				.antMatchers("/updateDoctor","/doctorPasswordChange","/acceptAppointments").hasAuthority("doctor")
-	   .anyRequest().authenticated();
-
-
+				.anyRequest().authenticated();
 	}
-	private CsrfTokenRepository csrfTokenRepository()
-	{
+
+	private CsrfTokenRepository csrfTokenRepository() {
 		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
 		repository.setSessionAttributeName("_csrf");
 		return repository;
 	}
-		@Bean
+
+	@Bean
 	public PasswordEncoder getPasswordEncoder()  {
 		return new BCryptPasswordEncoder();
 //		return  NoOpPasswordEncoder.getInstance();
 	}
+
 	@Bean
 	public AuthenticationManager authentications() throws Exception {
 		return super.authenticationManagerBean();
 	}
+
 	@Bean
     public ModelMapper getMapper(){
 		return  new ModelMapper();

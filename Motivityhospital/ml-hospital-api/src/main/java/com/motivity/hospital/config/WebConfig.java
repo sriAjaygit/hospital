@@ -1,5 +1,6 @@
 package com.motivity.hospital.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,17 +10,16 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Arrays;
 
 @EnableWebMvc
 @Configuration
 public class WebConfig {
-    private static final int CORS_FILTER_ORDER = -102;
-    @Value(${damain.name})
-    private String domain;
 
+    private static final int CORS_FILTER_ORDER = -102;
+    @Value("${domain.name}")
+    private String domain;
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
