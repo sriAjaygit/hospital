@@ -15,4 +15,4 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: echo "ajay"
+    script: 'aws --version'
