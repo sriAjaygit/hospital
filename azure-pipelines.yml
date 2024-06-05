@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: evaluation
+  name : evaluation
 
 steps:
 
