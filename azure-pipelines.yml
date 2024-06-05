@@ -16,3 +16,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'aws --version'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'aws cloudformation deploy --template-file cft template-vpc,ec2(2) --stack-name test'
